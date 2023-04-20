@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Задача 3. Об’єкт “Фірма” (використати члени-класи)
+поля
+назва фірми;
+дата заснування (рік, місяць);
+послуги (назва послуги, вартість, термін виконання);
+адреси філіалів (країна, місто, вулиця, номер будинку);
+методи
+визначення кількості років існування фірми;
+виведення всіх філіалів фірми у вказаному місті;
+виведення на екран послуг, що можуть бути виконані за вказану суму грошей та вказаний термін часу;
+
+</h1>
+      <a class="button" href="./index.html">Повернутись до задач</a>
+      <script>
+       class Services {
+        #service
+        #price
+        #time
+        constructor(service,price,time){
+          this.service=service
+          this.price=price
+          this.time=time
+        }
+        get Service(){
+          return this.#service
+        }
+        set Service(service){
+          this.#service=service
+        }
+        get Price(){
+          return this.#price
+        }
+        set Price(price){
+          if (!isFinite(price)||price<0)
+          throw new Error ('Некоректна ціна')
+        }
+        get Time(){
+          return this.#time
+        }
+        set Time(time){
+          if(!isFinite(time)||time<0)
+          throw new Error("Некоректний час виконання") 
+        }
+        toString(){
+          return `Назва послуги- ${this.service}<br>
+          Ціна послуги -${this.price}<br>
+          Час виконання послуги - ${this.time}днів <br>`
+        }
+       }
+       class addressesBranches{
+        #country
+        #city
+        #street
+        #houseNumber
+        constructor(country,city,street,houseNumber){
+          this.country=country
+          this.city=city
+          this.street=street
+          this.houseNumber=houseNumber
+        }
+        get Country(){
+          return this.#country
+        }
+        set Country(country){
+          this.#country=country
+        }
+       get City(){
+       return this.#city
+       }
+       set City(city){
+        this.#city=city
+       }
+       get Street(){
+        return this.#street 
+       }
+       set Street(street){
+        this.#street=street
+       }
+       get HouseNumber(){
+        return this.#houseNumber
+       }
+       set HouseNumber(houseNumber){
+        if(!isFinite(number)||number<0)
+        throw new Error("Некоректно введено номер будинку")
+        this.#houseNumber=number
+       }
+       toString(){
+        return `<br> Філія Країна-${this.country},<br> Місто-${this.city},<br> вулиця-${this.street} номер будинку - ${this.houseNumber}`
+       }
+       }
+       class Company{
+        constructor (companyName,yearOfFoundation){
+          this.companyName=companyName
+          this.yearOfFoundation=yearOfFoundation
+          this.companyService=[
+            new Services("Створення сайтів",15000,7),
+            new Services("Реклама та просування",10000,30),
+            new Services("Дізайн сайтів",20000,10)
+
+          ]
+          this.companyNavigation=[
+            new addressesBranches("Украіна","Сімферополь","Олександра Невського",30),
+            new addressesBranches("Украіна","Севастополь","Героїв Севастополя",12),
+            new addressesBranches("Украіна","Ялта","Київська",20),
+          ]
+        }
+        getNumOfYears(){
+          let year=new Date().getFullYear()
+          return  year-this.yearOfFoundation
+        }
+        getBranchesOfCompany(branches){
+          for(const navigation of companyNavigation){
+            if (navigation.city===branches)
+            document.write(navigation)
+          }
+        }
+        getCompanyService(money,terms){
+          for (const service of this.companyService){
+            if(service.cost<=money&&service.time<=terms)
+            document.write(service)
+          }
+        }
+        toString(){
+          return `Фірма-${this.companyName}<br>
+          Дата заснування-${this.yearOfFoundation}<br>
+          Послуги :<br> ${this.companyService}<br>
+          ${this.companyNavigation}<br>`
+        }
+       }
+       let company=new Company("Арт-веб",2010)
+       document.write(company)
+      </script>
+     
+  </body>
+</html>

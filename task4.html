@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        Задача 4. Створити клас TBankomat, який моделює роботу банкомата. Клас
+        повинен містити поля для зберігання кількості купюр кожного із номіналів
+        від 5 до 200 гривень. Реалізувати методи знаходження максимальної та
+        мінімальної сум, які може видати банкомат, та метод зняття деякої суми.
+      </h1>
+      <a class="button" href="./index.html">Повернутись до задач</a>
+      <script>
+        class Banknotes {
+          constructor(bill, quantity) {
+            this.bill = bill;
+            this.quantity = quantity;
+          }
+          toString() {
+            return `${this.bill}-${this.quantity}`;
+          }
+        }
+        class TBankomat {
+          constructor(totalSum) {
+            this.quantityBanknotes = totalSum;
+          }
+          getMaxSum() {
+            return this.quantityBanknotes.reduce(
+              (prevSum, elem) => prevSum + elem.bill * elem.quantity,
+              0
+            );
+          }
+          getMinSum() {
+            for (const banknote of this.quantityBanknotes) {
+              if (banknote.quantity > 0) return banknote.bill;
+            }
+            return 0;
+          }
+          cashWithdrawal(cash) {
+            if (cash > this.getMaxSum() || cash < this.getMinSum())
+              throw new Error(`Операція неможлива`);
+            for (let i = this.quantityBanknotes.length - 1; i > 0; i--) {
+              while (
+                this.quantityBanknotes[i].quantity > 0 &&
+                Math.floor(cash / this.quantityBanknotes[i].bill) > 0
+              ) {
+                cash -= this.quantityBanknotes[i].bill;
+                this.quantityBanknotes[i].quantity--;
+              }
+            }
+          }
+          toString() {
+            return this.quantityBanknotes;
+          }
+        }
+        let totalSum = [
+          new Banknotes(5, 5),
+          new Banknotes(10, 10),
+          new Banknotes(20, 20),
+          new Banknotes(50, 50),
+          new Banknotes(100, 100),
+          new Banknotes(200, 200),
+        ];
+        let b1 = new TBankomat(totalSum);
+        document.write(`Купюри- ${b1.toString()}<br>`);
+        document.write(`Максимальна сума- ${b1.getMaxSum()}грн<br>`);
+        document.write(`Мінімальна сума- ${b1.getMinSum()}грн<br>`);
+        b1.cashWithdrawal(5000);
+        document.write(
+          `Якщо зняти 5000грн готівки максимальна сума становить- ${b1.getMaxSum()}грн<br>`
+        );
+      </script>
+    </div>
+  </body>
+</html>

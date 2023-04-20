@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css"> 
+</head>
+<body>
+    <div class="container">
+    <h1>
+Задача 2. Створити клас TMoney для роботи з грошовими сумами. 
+Сума повинна зберігатися у вигляді доларового еквіваленту.
+ Реалізувати методи додавання/вилучення грошової маси, вказуючи необхідну суму у гривнях, 
+ та визначення курсу долара, при якому сума у гривнях збільшиться на 100.
+  Курс долара зберігати в окремому полі. 
+
+    </h1>
+    <a href="./index.html">Повернутись до задач</a>
+    
+        <script>
+            class TMoney{
+                #balance
+                #exchangeRate
+                constructor(balance,exchangeRate){
+                    this.ExchangeRate=exchangeRate
+                    this.Balance=balance
+                }
+                get Balance(){
+                    return this.#balance
+                }
+                get ExchangeRate(){
+                    return this.#exchangeRate
+                }
+                set Balance(value){
+                    if(value<0) throw new Error(`incorrect value`)
+                   this.#balance=Math.round((value/this.ExchangeRate)*100)/100
+                }
+                set ExchangeRate(value){
+                    if (value<0) throw new Error (`incorrect value`)
+                    this.#exchangeRate=value
+                }
+                increaseBalance(value){
+                    this.Balance=this.Balance*this.ExchangeRate+value
+                }
+                decreaseBalance(value){
+               this.Balance=this.Balance*this.ExchangeRate-value
+
+                }
+                getProfitRate() {
+				let balanceGRN = this.Balance * this.ExchangeRate
+				return (
+					Math.round(
+						(((balanceGRN + 100) * this.ExchangeRate) / balanceGRN) * 100
+					) / 100
+				)
+			}
+            toString(){
+                return (`Сума в долларах: ${this.Balance}<br>
+                Курс доллара: ${this.ExchangeRate} <br>
+                курс доллара, коли гривнева маса збільшена на 100 грн ${this.getProfitRate()}`
+                    )
+            }
+        }
+ let money= new TMoney(1000,37)
+ document.write(money)
+</script>
+
+</body>
+
+</html>
